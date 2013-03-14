@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="FlcInfo">
+	<typeAlias alias="FLCINFO" type="com.web.form.pojo.FlcInfo"/>
+	<select id="select" parameterClass="FLCINFO" resultClass="FLCINFO">
+		<![CDATA[
+			select t1.* from (
+		]]>
+		<![CDATA[
+			select flcid,pallects,transseq,batchid,transdate,state,errorcode,recv,transid,another1,another2,another3
+			from flcinfo t 
+		]]>
+		<![CDATA[
+			) t1 
+		]]>
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="flcid">
+				t1.flcid =#flcid# 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="transbegindate">
+				t1.transdate between #transbegindate# and  #transenddate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				t1.state = #state# 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="transid">
+				t1.transid = #transid# 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="transseq">
+				t1.transseq = #transseq# 
+			</isNotEmpty>			
+		</dynamic>
+	</select>
+	
+	<select id="selectCount" parameterClass="FLCINFO" resultClass="java.lang.Integer">
+		select count(*) from flcinfo t1
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="flcid">
+				t1.flcid LIKE '%' || #flcid# || '%'
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="transbegindate">
+				t1.transdate between #transbegindate# and  #transenddate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				t1.state = #state# 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="transid">
+				t1.transid = #transid# 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="transseq">
+				t1.transseq = #transseq# 
+			</isNotEmpty>				
+		</dynamic>
+	</select>
+	
+	<select id="selectTotal" parameterClass="FLCINFO" resultClass="FLCINFO">
+		select 
+			t.state as state, 
+			sum(num) as num
+			from(
+				select
+					state,
+					1 as num,
+					transdate
+				FROM mngsys.flcinfo) t
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="flcid">
+				t.flcid = #flcid#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				t.state = #state# 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="transbegindate">
+				t.transdate between #transbegindate# and  #transenddate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="transid">
+				t1.transid = #transid# 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="transseq">
+				t1.transseq = #transseq# 
+			</isNotEmpty>				
+		</dynamic>
+		group by t.state 
+	</select>
+	
+	
+	<select id="selectTotalAll" parameterClass="FLCINFO" resultClass="FLCINFO">
+		select 
+			'' as state, 
+			sum(num) as num
+			from(
+				select
+					state,
+					1 as num,
+					transdate
+				FROM mngsys.flcinfo) t
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="flcid">
+				t.flcid = #flcid#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				t.state = #state# 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="transbegindate">
+				t.transdate between #transbegindate# and  #transenddate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="transid">
+				t.transid = #transid# 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="transseq">
+				t.transseq = #transseq# 
+			</isNotEmpty>				
+		</dynamic>
+	</select>	
+	
+	<select id="selectTotalCount" parameterClass="FLCINFO" resultClass="java.lang.Integer">
+		select count(*) from flcinfo t1
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="flcid">
+				t1.flcid =#flcid#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="state">
+				t1.state =#state#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="transbegindate">
+				t1.transdate between #transbegindate# and  #transenddate#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="transid">
+				t1.transid = #transid# 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="transseq">
+				t1.transseq = #transseq# 
+			</isNotEmpty>	
+		</dynamic>
+	</select>
+
+	<insert id="insert" parameterClass="FLCINFO">
+		insert into flcinfo
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="flcid">
+				flcid
+			</isNotNull>
+			<isNotNull prepend="," property="pallects">
+				pallects
+			</isNotNull>
+			<isNotNull prepend="," property="transseq">
+				transseq
+			</isNotNull>
+			<isNotNull prepend="," property="batchid">
+				batchid
+			</isNotNull>
+			<isNotNull prepend="," property="transdate">
+				transdate
+			</isNotNull>
+			<isNotNull prepend="," property="state">
+				state
+			</isNotNull>
+			<isNotNull prepend="," property="errorcode">
+				errorcode
+			</isNotNull>
+			<isNotNull prepend="," property="recv">
+				recv
+			</isNotNull>
+			<isNotNull prepend="," property="transid">
+				transid
+			</isNotNull>
+			<isNotNull prepend="," property="another1">
+				another1
+			</isNotNull>
+			<isNotNull prepend="," property="another2">
+				another2
+			</isNotNull>
+			<isNotNull prepend="," property="another3">
+				another3
+			</isNotNull>
+			)
+		</dynamic>
+		values 
+		<dynamic prepend="(">
+			<isNotNull prepend="," property="flcid">
+				#flcid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="pallects">
+				#pallects:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="transseq">
+				#transseq:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="batchid">
+				#batchid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="transdate">
+				#transdate:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="state">
+				#state:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="errorcode">
+				#errorcode:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="recv">
+				#recv:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="transid">
+				#transid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="another1">
+				#another1:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="another2">
+				#another2:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="another3">
+				#another3:VARCHAR#
+			</isNotNull>			
+		)
+		</dynamic>
+	</insert>
+	
+	<update id="update" parameterClass="FLCINFO">
+		update flcinfo 
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="flcid">
+				flcid = #flcid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="pallects">
+				pallects = #pallects:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="transseq">
+				transseq = #transseq:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="batchid">
+				batchid = #batchid:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="transdate">
+				transdate = #transdate:VARCHAR#
+			</isNotNull>			
+			<isNotNull prepend="," property="state">
+				state = #state:VARCHAR#
+			</isNotNull>		
+			<isNotNull prepend="," property="errorcode">
+				errorcode = #errorcode:VARCHAR#
+			</isNotNull>		
+			<isNotNull prepend="," property="recv">
+				recv = #recv:VARCHAR#
+			</isNotNull>		
+			<isNotNull prepend="," property="transid">
+				transid = #transid:VARCHAR#
+			</isNotNull>	
+			<isNotNull prepend="," property="another1">
+				another1 = #another1:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="another2">
+				another2 = #another2:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="another3">
+				another3 = #another3:VARCHAR#
+			</isNotNull>						
+		</dynamic>
+		where flcid = #flcid:VARCHAR#
+	</update>
+	
+	<update id="customupdate" parameterClass="FLCINFO">
+		update flcinfo 
+		<dynamic prepend="set">
+			<isNotNull prepend="," property="transdate">
+				transdate = #transdate:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="state">
+				state = #state:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="transseq">
+				transseq = #transseq:VARCHAR#
+			</isNotNull>
+			<isNotNull prepend="," property="errorcode">
+				errorcode = #errorcode:VARCHAR#
+			</isNotNull>		
+			<isNotNull prepend="," property="recv">
+				recv = #recv:VARCHAR#
+			</isNotNull>			
+		</dynamic>
+		where transid = #transid:VARCHAR#
+	</update>
+	
+	<select id="selectByflcids" parameterClass="java.lang.String" resultClass="FLCINFO">
+		select flcid,pallects,transseq,batchid,transdate,state,errorcode,recv,transid
+		from flcinfo t
+		where t.flcid in ($flcids$)
+	</select>
+	
+	<delete id="delete" parameterClass="FLCINFO">
+		delete from flcinfo where flcid = #flcid:VARCHAR#
+	</delete>
+</sqlMap>

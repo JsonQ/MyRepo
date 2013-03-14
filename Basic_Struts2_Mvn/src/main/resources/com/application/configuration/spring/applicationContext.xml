@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!-- <bean id="oracle_datasource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName">
+			<value>jdbc/TOEXCEL_POOL</value>
+		</property>
+		<property name="resourceRef">
+			<value>true</value>
+		</property>
+	</bean> -->
+	
+	<bean id="oracle_datasource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />   
+        <property name="url" value="jdbc:mysql://localhost:3306/mngsys" />   
+        <property name="username" value="root" />           
+		<property name="password" value="root001"/> 
+	</bean>
+	
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation">
+			<value>com/application/configuration/orm/ibatis/sqlMapConfig.xml</value>
+		</property>
+	</bean>
+	
+	<bean id="ibatisDao" class="com.dao.core.BatisGenericDao">
+		<property name="dataSource">
+			<ref local="oracle_datasource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref local="sqlMapClient" />
+		</property>
+	</bean>
+
+	<bean id="FlcInfoAction" class="com.test.FlcInfoAction">
+		<property name="dao">
+			<ref local="ibatisDao"/>
+		</property>
+	</bean>
+</beans>
